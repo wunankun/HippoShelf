@@ -5,6 +5,10 @@
 一个 macOS 上的临时置物架：拖任意文件的时候，一只河马从屏幕右边滑出来，张嘴接住你暂时放下的东西；空了就自己躲回去。
 
 <p align="center">
+  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
+</p>
+
+<p align="center">
   <img src="docs/icon.png" width="112" alt="App 图标">
 </p>
 
