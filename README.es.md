@@ -90,18 +90,29 @@ Descarga `HippoShelf-1.8-universal.zip` desde [Releases](https://github.com/wuna
 
 ### Opción 2: Compilar desde el código
 
-Requiere macOS 13+. **Primero comprueba**, instala solo si falta:
+> ¿Ya tienes las Command Line Tools? Salta al paso 3.
+
+**Paso 1: Comprueba el entorno**
 
 ```bash
-xcode-select -p
+sw_vers -productVersion   # necesitas 13.0 o superior
+xcode-select -p           # una ruta = herramientas instaladas
+swiftc --version          # imprime versión = compilador listo
+git --version             # imprime versión = git listo
 ```
 
-- Si imprime una ruta (p. ej. `/Library/Developer/CommandLineTools`) → ya está listo; sáltate la instalación.
-- Si da error `unable to get active developer directory` → instala:
-  ```bash
-  xcode-select --install
-  ```
-  Pulsa Instalar en el diálogo y vuelve a ejecutar `xcode-select -p` para confirmar.
+**Paso 2: Instala solo lo que falte**
+
+| Lo que ves | Qué hacer |
+| --- | --- |
+| `xcode-select -p` falla con `unable to get active developer directory` | Ejecuta `xcode-select --install`, pulsa Instalar y espera 5–15 min |
+| No aparece el diálogo / la descarga se atasca | Revisa Ajustes → General → Actualización de software, o descarga manual desde https://developer.apple.com/download/all/ (Apple ID gratis) |
+| Sigue fallando después de instalar | Ejecuta `sudo xcode-select -s /Library/Developer/CommandLineTools` y comprueba otra vez |
+| `swiftc` pide aceptar la licencia | Ejecuta `sudo xcodebuild -license accept` |
+| macOS es anterior a 13 | Actualiza macOS o usa otro Mac (se requiere 13+) |
+| Sin permisos de administrador (Mac de empresa) | Pídelo a IT o usa la descarga ya compilada de arriba |
+
+**Paso 3: Compila**
 
 ```bash
 git clone https://github.com/wunankun/HippoShelf.git

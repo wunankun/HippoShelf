@@ -90,18 +90,29 @@
 
 ### 方式二：从源码构建
 
-需要 macOS 13+。**先检查**，缺了才安装：
+> 已经装过 Command Line Tools 的，直接跳到「第 3 步」。
+
+**第 1 步：检查环境**（整段粘进终端）
 
 ```bash
-xcode-select -p
+sw_vers -productVersion   # 需要 13.0 或更高
+xcode-select -p           # 有路径 = 命令行工具已安装
+swiftc --version          # 能打印版本 = 编译器可用
+git --version             # 能打印版本 = git 可用
 ```
 
-- 打印出路径（如 `/Library/Developer/CommandLineTools`）→ 已装好，直接跳到构建
-- 报错 `unable to get active developer directory` → 才需要安装：
-  ```bash
-  xcode-select --install
-  ```
-  弹窗点「安装」，装完再跑一次 `xcode-select -p` 确认
+**第 2 步：缺什么装什么**
+
+| 你会看到 | 该怎么办 |
+| --- | --- |
+| `xcode-select -p` 报 `unable to get active developer directory` | 运行 `xcode-select --install`，弹窗点「安装」，等 5–15 分钟 |
+| 弹窗没出现 / 下载卡住 | 打开「系统设置 → 通用 → 软件更新」看看有没有更新；或到 https://developer.apple.com/download/all/ 手动下载（免费 Apple ID） |
+| 装完还是报错 | 运行 `sudo xcode-select -s /Library/Developer/CommandLineTools`，再检查一次 |
+| `swiftc` 提示 license | 运行 `sudo xcodebuild -license accept` |
+| macOS 低于 13 | 升级系统，或换一台 Mac（这个 App 最低 13） |
+| 公司电脑没有管理员权限 | 让 IT 装，或者直接用上面的「方式一」下载现成包 |
+
+**第 3 步：编译**
 
 ```bash
 git clone https://github.com/wunankun/HippoShelf.git

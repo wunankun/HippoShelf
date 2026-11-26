@@ -90,18 +90,29 @@ macOS용 "잠깐 여기 둘게" 선반입니다. 파일을 드래그하기 시�
 
 ### 방법 2: 소스에서 빌드
 
-macOS 13 이상이 필요합니다. **먼저 확인**하고, 없을 때만 설치하세요:
+> Command Line Tools가 이미 있으면 3단계로 건너뛰세요.
+
+**1단계: 환경 확인**
 
 ```bash
-xcode-select -p
+sw_vers -productVersion   # 13.0 이상 필요
+xcode-select -p           # 경로가 나오면 도구 설치됨
+swiftc --version          # 버전이 나오면 컴파일러 OK
+git --version             # 버전이 나오면 git OK
 ```
 
-- 경로(예: `/Library/Developer/CommandLineTools`)가 나오면 준비 완료. 설치를 건너뜁니다.
-- `unable to get active developer directory` 오류가 나면:
-  ```bash
-  xcode-select --install
-  ```
-  대화상자에서 설치를 누른 뒤 `xcode-select -p`로 다시 확인하세요.
+**2단계: 없는 것만 설치**
+
+| 보이는 화면 | 할 일 |
+| --- | --- |
+| `xcode-select -p`가 `unable to get active developer directory` 오류 | `xcode-select --install` 실행 후 설치를 누르고 5~15분 대기 |
+| 대화상자가 안 뜨거나 다운로드가 멈춤 | 시스템 설정 → 일반 → 소프트웨어 업데이트 확인, 또는 https://developer.apple.com/download/all/ 에서 수동 다운로드(무료 Apple ID) |
+| 설치 후에도 오류 | `sudo xcode-select -s /Library/Developer/CommandLineTools` 실행 후 다시 확인 |
+| `swiftc`가 라이선스를 요구 | `sudo xcodebuild -license accept` |
+| macOS가 13 미만 | macOS 업데이트 또는 다른 Mac 사용 (13 이상 필요) |
+| 관리자 권한 없음(회사 Mac) | IT에 요청하거나 위의 "방법 1" 빌드된 버전 사용 |
+
+**3단계: 빌드**
 
 ```bash
 git clone https://github.com/wunankun/HippoShelf.git

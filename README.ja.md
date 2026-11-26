@@ -90,18 +90,29 @@ macOS 用の「ちょっとここに置いとく」置き場です。ファイ�
 
 ### 方法 2: ソースからビルド
 
-macOS 13 以降が必要です。**まず確認**し、無い場合だけインストール:
+> Command Line Tools が入っている場合は「ステップ 3」へ。
+
+**ステップ 1: 環境を確認**
 
 ```bash
-xcode-select -p
+sw_vers -productVersion   # 13.0 以上が必要
+xcode-select -p           # パスが出ればインストール済み
+swiftc --version          # バージョンが出ればコンパイラ OK
+git --version             # バージョンが出れば git OK
 ```
 
-- パス（例 `/Library/Developer/CommandLineTools`）が出れば準備完了。インストールは不要。
-- `unable to get active developer directory` と出たら:
-  ```bash
-  xcode-select --install
-  ```
-  ダイアログで「インストール」を押し、再度 `xcode-select -p` で確認。
+**ステップ 2: 足りないものだけ入れる**
+
+| 表示 | 対処 |
+| --- | --- |
+| `xcode-select -p` が `unable to get active developer directory` | `xcode-select --install` を実行し、「インストール」を押して 5〜15 分待つ |
+| ダイアログが出ない / ダウンロードが止まる | システム設定 → 一般 → ソフトウェアアップデートを確認、または https://developer.apple.com/download/all/ から手動で（無料の Apple ID） |
+| インストール後もエラー | `sudo xcode-select -s /Library/Developer/CommandLineTools` を実行して再確認 |
+| `swiftc` がライセンスを求める | `sudo xcodebuild -license accept` |
+| macOS が 13 未満 | macOS を更新するか別の Mac を使う（13 以上必須） |
+| 管理者権限がない（会社の Mac） | IT に依頼するか、上の「方法 1」のビルド済み版を使う |
+
+**ステップ 3: ビルド**
 
 ```bash
 git clone https://github.com/wunankun/HippoShelf.git
