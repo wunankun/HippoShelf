@@ -10,7 +10,7 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources" build
 
 for ARCH in arm64 x86_64; do
   swiftc -O -target "$ARCH-apple-macos13.0" \
-    Sources/ShelfStore.swift Sources/HippoPanel.swift Sources/main.swift \
+    Sources/ShelfStore.swift Sources/L10n.swift Sources/UpdateChecker.swift Sources/SettingsWindow.swift Sources/HippoPanel.swift Sources/main.swift \
     -o "build/HippoShelf-$ARCH"
 done
 

@@ -28,11 +28,11 @@
 </p>
 
 <p align="center">
-  <img src="docs/cartoon.png" width="170" alt="Skin dibujos: hipopótamo negro con dos archivos">
+  <img src="docs/cartoon.gif" width="170" alt="Skin dibujos: el hipopótamo negro recibe tres archivos y se vacía">
   &nbsp;&nbsp;
-  <img src="docs/glass.png" width="180" alt="Skin simple: tarjeta de cristal esmerilado">
+  <img src="docs/glass.gif" width="170" alt="Skin simple: la tarjeta de cristal crece con los archivos">
 </p>
-<p align="center"><sub>Izquierda: skin dibujos · Derecha: skin simple</sub></p>
+<p align="center"><sub>Izquierda: skin dibujos · Derecha: skin simple (grabaciones reales)</sub></p>
 
 > **Gratis y de código abierto, sin anuncios ni compras. Si te ahorra un viaje al escritorio, una ⭐ Star es el mejor apoyo.**
 
@@ -57,21 +57,25 @@ No se apropia de tus archivos ni intenta gestionarlos: solo le da un lugar tempo
 - 🎨 **Dos skins**: Dibujos (hipopótamo negro) / Simple (cristal esmerilado de macOS), desde la barra de menús
 - 📍 **Muévelo donde quieras**: arrastra la barra superior; recuerda la posición
 - 🧠 **Detalles**: parpadea, mueve las orejas, los ojos siguen al ratón (skin dibujos)
+- ⚙️ **Ventana de ajustes**: ⌘, para cambiar idioma, inicio al arrancar o buscar actualizaciones
+- 🌐 **5 idiomas**: Español / English / 简体中文 / 日本語 / 한국어, cambia cuando quieras
+- 🔄 **Buscar actualizaciones**: un clic consulta la última versión en GitHub y te lleva a la descarga
 - 💸 **Totalmente gratis**: sin compras, sin suscripción, sin anuncios, sin cuenta
-- 🔒 **Todo local**: sin red, sin telemetría
+- 🔒 **Local por defecto**: sin subidas, sin cuentas, sin telemetría; solo se conecta cuando tú pulsas «Buscar actualizaciones»
 
 ## Privacidad
 
-**La decisión de diseño más importante del proyecto: nunca se conecta a internet, y es gratis.**
+**La decisión de diseño más importante del proyecto: local por defecto, y gratis.**
 
-- **Sin código de red**: no hay `URLSession`, ni analíticas, ni reportes de fallos, ni cuentas
+- **Sin red por defecto**: sin nube, sin analíticas, sin reportes de fallos, sin cuentas
+- **«Buscar actualizaciones» es la única conexión**: solo se ejecuta cuando tú la pulsas; pregunta a la API pública de GitHub por la última versión y no envía archivos, rutas ni datos del equipo. Si no la usas, la app funciona sin conexión
 - **No sube nada**: solo guarda *rutas* en memoria; al cerrar la app, la lista se vacía
 - **No toca tus archivos**: arrastrar fuera **copia**; el original nunca se borra, mueve ni renombra
-- **Código abierto**: toda la lógica está en tres archivos Swift, auditable línea por línea
+- **Código abierto**: toda la lógica está en seis archivos Swift, auditable línea por línea
 - **Cero dependencias de terceros**: solo AppKit de Apple
 - **Sin cobros**: sin compras, suscripciones ni anuncios; el proyecto nunca te pide registrarte
 
-En una frase: guarda rutas, nunca contenidos, y nunca llama a casa.
+En una frase: guarda rutas, nunca contenidos, y solo se conecta cuando tú buscas actualizaciones.
 
 ## Instalación
 
@@ -132,7 +136,7 @@ open HippoShelf.app
   ```
 - No hay icono en el Dock: el hipopótamo vive en la barra de menús, es normal
 - macOS pedirá permiso la primera vez que sueltes archivos de Escritorio / Documentos / Descargas
-- Iniciar al arrancar: Ajustes del Sistema → General → Ítems de inicio
+- Inicio al arrancar: menú del hipopótamo → «Ajustes» → activa «Inicio al arrancar» (o añádelo en Ajustes del Sistema → General → Ítems de inicio)
 
 ## Uso
 
@@ -141,7 +145,8 @@ open HippoShelf.app
 - Arrastra los archivos seleccionados fuera de la boca para **copiarlos** (los originales quedan) y quitarlos del estante
 - El pájaro rojo de la oreja derecha vacía el estante; se esconde solo cuando está vacío
 - Arrastra la barra superior para moverlo; la posición se recuerda (⌘S lo muestra otra vez)
-- Barra de menús: mostrar/ocultar, vaciar, skin dibujos/cristal, salir
+- Barra de menús: mostrar/ocultar, vaciar, skin dibujos/cristal, Ajustes (⌘,), salir
+- En Ajustes: idioma, inicio al arrancar y buscar actualizaciones
 
 ## Preguntas frecuentes
 
@@ -155,7 +160,7 @@ La boca crece sin desplazamiento; vacíalo si no cabe en la pantalla.
 No. Solo guarda rutas; arrastrar fuera copia; salir solo vacía la lista.
 
 **¿Sube mis archivos a internet?**
-No. No hay código de red: busca `URLSession` en el código.
+No. Por defecto no hace ninguna petición de red. La única conexión es «Buscar actualizaciones», que consulta la versión en GitHub solo cuando la pulsas; puedes revisarlo en `UpdateChecker.swift`.
 
 **¿Varias pantallas y espacios?**
 Sí; sigue la pantalla donde lo sueltes y recuerda la posición.
@@ -172,6 +177,9 @@ Por la boca.
 Sources/
   ShelfStore.swift   lista de archivos del estante (solo en memoria)
   HippoPanel.swift   dibujo de la cara, ventana, celdas, arrastrar y soltar
+  L10n.swift         textos de la interfaz en cinco idiomas
+  SettingsWindow.swift ventana de ajustes (idioma / inicio / actualizaciones)
+  UpdateChecker.swift  consulta de la última versión en GitHub
   main.swift         entrada de la app, barra de menús, monitor de arrastre
 Resources/           icono de la app
 docs/                capturas para el README

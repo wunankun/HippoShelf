@@ -18,8 +18,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var panel: HippoPanel!
     private var statusItem: NSStatusItem?
     private var toggleItem: NSMenuItem?
+    private var clearItem: NSMenuItem?
     private var cartoonSkinItem: NSMenuItem?
     private var glassSkinItem: NSMenuItem?
+    private var settingsItem: NSMenuItem?
+    private var quitItem: NSMenuItem?
+    private var settingsController: SettingsWindowController?
     private var watcher: Timer?
     private var lastDragChange = NSPasteboard(name: .drag).changeCount
     private var dragActive = false
@@ -173,10 +177,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard FileManager.default.fileExists(atPath: url.path) else {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = "文件已不在原位置"
-            alert.informativeText = "“\(url.lastPathComponent)” 可能已经被移动或删除。截图缩略图拖进来的文件有时是临时文件，拖完就会被系统清掉。"
-            alert.addButton(withTitle: "从嘴里拿出来")
-            alert.addButton(withTitle: "好")
+            alert.messageText = L10n.t("file.missingTitle")
+            alert.informativeText = L10n.t("file.missingInfo", url.lastPathComponent)
+            alert.addButton(withTitle: L10n.t("file.remove"))
+            alert.addButton(withTitle: L10n.t("file.ok"))
             if alert.runModal() == .alertFirstButtonReturn {
                 store.remove(url)
             }
@@ -191,10 +195,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = "没有权限读取这个文件"
-            alert.informativeText = "请在「系统设置 → 隐私与安全性 → 文件与文件夹」里允许「河马置物架」访问这个位置，然后再点一次。\n\n\(url.path)"
-            alert.addButton(withTitle: "打开系统设置")
-            alert.addButton(withTitle: "好")
+            alert.messageText = L10n.t("file.permTitle")
+            alert.informativeText = L10n.t("file.permInfo", url.path)
+            alert.addButton(withTitle: L10n.t("file.openSettings"))
+            alert.addButton(withTitle: L10n.t("file.ok"))
             if alert.runModal() == .alertFirstButtonReturn,
                let settings = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_FilesAndFolders") {
                 NSWorkspace.shared.open(settings)
@@ -205,9 +209,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if !NSWorkspace.shared.open(url) {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = "打不开这个文件"
-            alert.informativeText = "没有找到能打开“\(url.lastPathComponent)”的应用。"
-            alert.addButton(withTitle: "好")
+            alert.messageText = L10n.t("file.cannotOpenTitle")
+            alert.informativeText = L10n.t("file.cannotOpenInfo", url.lastPathComponent)
+            alert.addButton(withTitle: L10n.t("file.ok"))
             alert.runModal()
         }
     }
@@ -232,14 +236,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func showShelf() {
         guard let screen = screenUnderMouse() else { return }
         panel.show(on: screen)
-        toggleItem?.title = "隐藏置物架"
+        toggleItem?.title = L10n.t("menu.hide")
     }
 
     private func hideShelf() {
         dragActive = false
         panel.setEnlargement(1.0, animated: false)
         panel.hide()
-        toggleItem?.title = "显示置物架"
+        toggleItem?.title = L10n.t("menu.show")
     }
 
     private func scheduleHide() {
@@ -266,37 +270,45 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let image = HippoStatusIcon.make()
             image.isTemplate = true
             button.image = image
-            button.toolTip = "河马置物架"
+            button.toolTip = L10n.t("app.name")
         }
 
         let menu = NSMenu()
-        let toggle = NSMenuItem(title: "显示置物架", action: #selector(toggleShelf), keyEquivalent: "s")
+        let toggle = NSMenuItem(title: L10n.t("menu.show"), action: #selector(toggleShelf), keyEquivalent: "s")
         toggle.target = self
         menu.addItem(toggle)
         toggleItem = toggle
 
-        let clear = NSMenuItem(title: "清空置物架", action: #selector(clearShelf), keyEquivalent: "")
+        let clear = NSMenuItem(title: L10n.t("menu.clear"), action: #selector(clearShelf), keyEquivalent: "")
         clear.target = self
         menu.addItem(clear)
+        clearItem = clear
 
         menu.addItem(.separator())
 
-        let cartoon = NSMenuItem(title: "卡通皮肤", action: #selector(chooseCartoonSkin), keyEquivalent: "")
+        let cartoon = NSMenuItem(title: L10n.t("menu.cartoon"), action: #selector(chooseCartoonSkin), keyEquivalent: "")
         cartoon.target = self
         cartoon.state = Hippo.skin == .cartoon ? .on : .off
         menu.addItem(cartoon)
         cartoonSkinItem = cartoon
 
-        let glass = NSMenuItem(title: "简约皮肤", action: #selector(chooseGlassSkin), keyEquivalent: "")
+        let glass = NSMenuItem(title: L10n.t("menu.glass"), action: #selector(chooseGlassSkin), keyEquivalent: "")
         glass.target = self
         glass.state = Hippo.skin == .glass ? .on : .off
         menu.addItem(glass)
         glassSkinItem = glass
 
         menu.addItem(.separator())
-        let quit = NSMenuItem(title: "退出置物架", action: #selector(quit), keyEquivalent: "q")
+
+        let settings = NSMenuItem(title: L10n.t("menu.settings"), action: #selector(openSettings), keyEquivalent: ",")
+        settings.target = self
+        menu.addItem(settings)
+        settingsItem = settings
+
+        let quit = NSMenuItem(title: L10n.t("menu.quit"), action: #selector(quit), keyEquivalent: "q")
         quit.target = self
         menu.addItem(quit)
+        quitItem = quit
 
         item.menu = menu
         statusItem = item
@@ -326,6 +338,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.content.refresh()
         panel.content.applySkin()
         panel.fitContent(anchorTop: true, animated: true)
+    }
+
+    // MARK: Settings
+
+    @objc private func openSettings() {
+        if settingsController == nil {
+            settingsController = SettingsWindowController(onLanguageChange: { [weak self] in
+                self?.languageDidChange()
+            })
+        }
+        settingsController?.reload()
+        NSApp.activate(ignoringOtherApps: true)
+        settingsController?.showWindow(nil)
+        settingsController?.window?.makeKeyAndOrderFront(nil)
+    }
+
+    private func languageDidChange() {
+        rebuildMenuTitles()
+        panel.content.updateLocalizedStrings()
+        statusItem?.button?.toolTip = L10n.t("app.name")
+        settingsController?.window?.title = L10n.t("settings.title")
+    }
+
+    private func rebuildMenuTitles() {
+        toggleItem?.title = panel.isShown ? L10n.t("menu.hide") : L10n.t("menu.show")
+        clearItem?.title = L10n.t("menu.clear")
+        cartoonSkinItem?.title = L10n.t("menu.cartoon")
+        glassSkinItem?.title = L10n.t("menu.glass")
+        settingsItem?.title = L10n.t("menu.settings")
+        quitItem?.title = L10n.t("menu.quit")
     }
 
     @objc private func quit() {

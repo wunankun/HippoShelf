@@ -580,11 +580,18 @@ final class HippoTeethOverlay: NSView {
         }
 
         if showsHint, hintRect.height > 10 {
-            let text = "拖文件到这里"
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: NSFont.systemFont(ofSize: 10.5, weight: .medium),
+            let text = L10n.t("hint.drop")
+            var fontSize: CGFloat = 10.5
+            var attributes: [NSAttributedString.Key: Any] = [
+                .font: NSFont.systemFont(ofSize: fontSize, weight: .medium),
                 .foregroundColor: NSColor(white: 1, alpha: 0.55)
             ]
+            // Longer translations shrink a little to stay inside the glass card.
+            while fontSize > 8.0,
+                  (text as NSString).size(withAttributes: attributes).width > hintRect.width - 8 {
+                fontSize -= 0.5
+                attributes[.font] = NSFont.systemFont(ofSize: fontSize, weight: .medium)
+            }
             let textSize = (text as NSString).size(withAttributes: attributes)
             let point = NSPoint(
                 x: hintRect.midX - textSize.width / 2,
@@ -630,7 +637,7 @@ final class GlassClearButton: NSView {
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        toolTip = "清空置物架"
+        toolTip = L10n.t("tip.clear")
         focusRingType = .none
         registerTracking()
     }
@@ -910,6 +917,14 @@ final class HippoContentView: NSView, HippoDropTarget {
         needsLayout = true
         needsDisplay = true
         window?.invalidateShadow()
+    }
+
+    /// Called after the interface language changes: the drop hint is redrawn
+    /// in the new language and the clear button gets a fresh tooltip.
+    func updateLocalizedStrings() {
+        clearButton.toolTip = L10n.t("tip.clear")
+        teeth.needsDisplay = true
+        needsDisplay = true
     }
 
     private func pathIndex(_ url: URL) -> Int? {

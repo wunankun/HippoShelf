@@ -28,11 +28,11 @@
 </p>
 
 <p align="center">
-  <img src="docs/cartoon.png" width="170" alt="Cartoon skin: black hippo holding two files">
+  <img src="docs/cartoon.gif" width="170" alt="Cartoon skin: the black hippo takes three files, then empties">
   &nbsp;&nbsp;
-  <img src="docs/glass.png" width="180" alt="Simple skin: frosted glass card with a drop hint">
+  <img src="docs/glass.gif" width="170" alt="Simple skin: frosted glass card grows as files arrive">
 </p>
-<p align="center"><sub>Left: Cartoon skin · Right: Simple skin</sub></p>
+<p align="center"><sub>Left: Cartoon skin · Right: Simple skin (screen recordings)</sub></p>
 
 > **Free and open source — no ads, no in-app purchases. If it saves you a trip to the desktop, a ⭐ Star is the best support.**
 
@@ -57,21 +57,25 @@ It doesn't take over your files or try to manage them. It just gives "the few fi
 - 🎨 **Two skins**: Cartoon (black hippo) / Simple (macOS frosted glass), switch from the menu bar
 - 📍 **Park it anywhere**: drag the top bar to move the shelf; it remembers where
 - 🧠 **Small touches**: blinking, ear wiggles, pupils follow the mouse (cartoon skin)
+- ⚙️ **Settings window**: ⌘, to switch language, launch at login, or check for updates
+- 🌐 **5 languages**: English / 简体中文 / Español / 日本語 / 한국어, switchable anytime
+- 🔄 **Check for updates**: one click asks GitHub for the latest version and takes you to the download
 - 💸 **Completely free**: no in-app purchases, no subscription, no ads, no account
-- 🔒 **Fully local**: no network, no telemetry
+- 🔒 **Local by default**: no uploads, no accounts, no telemetry; it only goes online when *you* click "Check for updates"
 
 ## Privacy
 
-**The most important design decision of this project: it never goes online — and it is free.**
+**The most important design decision of this project: local by default — and free.**
 
-- **No network code**: no `URLSession`, no analytics, no crash reporting, no accounts
+- **No network by default**: no cloud, no analytics, no crash reporting, no accounts
+- **"Check for updates" is the only online call**: it runs only when you click it, asks GitHub's public API for the latest release tag, and never sends your files, paths or device details. Skip it and the app is fully offline — everything still works
 - **No uploads**: only file *paths* are kept in memory; quitting the app clears the list
 - **Doesn't touch your files**: dragging out **copies**; the original is never deleted, moved or renamed
-- **Open source**: all the logic lives in three Swift files — audit it line by line
+- **Open source**: all the logic lives in six Swift files — audit it line by line
 - **Zero third-party dependencies**: only Apple's AppKit, no package manager, no binary blobs
 - **No charges**: no in-app purchases, subscriptions or ads; the project never asks you to sign up
 
-In one sentence: it parks paths, never contents, and never phones home.
+In one sentence: it parks paths, never contents — and the only time it goes online is the update check you trigger yourself.
 
 ## Install
 
@@ -132,7 +136,7 @@ open HippoShelf.app
   ```
 - No Dock icon — the hippo lives in the menu bar, that's normal
 - macOS will ask for permission the first time you drop files from Desktop / Documents / Downloads
-- Launch at login: System Settings → General → Login Items
+- Launch at login: menu bar hippo → Settings → turn on "Launch at login" (or add it in System Settings → General → Login Items)
 
 ## Usage
 
@@ -141,7 +145,8 @@ open HippoShelf.app
 - Drag selected files out of the mouth to **copy** them (originals stay) and remove them from the shelf
 - The red bird on the right ear clears the shelf; it hides itself when empty
 - Drag the top bar to move the shelf; the position is remembered (⌘S shows it again)
-- Menu bar: show/hide, clear, cartoon/glass skin, quit
+- Menu bar: show/hide, clear, cartoon/glass skin, Settings (⌘,), quit
+- Settings holds language, launch at login and update check
 
 ## FAQ
 
@@ -155,7 +160,7 @@ A: The mouth keeps growing and never scrolls. Clear it if it runs out of screen.
 A: No. The shelf stores paths only; dragging out copies; quitting just clears the list.
 
 **Q: Does it upload my files?**
-A: No. There is no network code at all — search the source for `URLSession`.
+A: No. By default the app makes no network requests. The only online call is "Check for updates", which asks GitHub for a version number when you click it — see `UpdateChecker.swift`.
 
 **Q: Multiple displays and spaces?**
 A: Yes. It follows the screen you drop it on and remembers its position.
@@ -170,9 +175,12 @@ A: Big mouth.
 
 ```
 Sources/
-  ShelfStore.swift   the shelf's file list (in memory only)
-  HippoPanel.swift   hippo face drawing, window, tiles, drag & drop
-  main.swift         app entry, menu bar, drag monitoring
+  ShelfStore.swift    the shelf's file list (in memory only)
+  HippoPanel.swift    hippo face drawing, window, tiles, drag & drop
+  L10n.swift          UI strings in five languages
+  SettingsWindow.swift settings window (language / launch at login / updates)
+  UpdateChecker.swift  GitHub release version check
+  main.swift          app entry, menu bar, drag monitoring
 Resources/           app icon
 docs/                README screenshots
 build.sh             builds the universal binary (arm64 + x86_64)
