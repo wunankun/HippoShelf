@@ -21,7 +21,7 @@
 <p align="center"><b>Gratis para siempre</b> · Sin compras dentro de la app · Sin suscripción · Sin anuncios · Sin cuenta</p>
 
 <p align="center">
-  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · Español · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
+  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <b>Español</b> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">

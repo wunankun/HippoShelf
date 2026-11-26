@@ -21,7 +21,7 @@
 <p align="center"><b>完全免费</b> · 无内购 · 无订阅 · 无广告 · 无需账号</p>
 
 <p align="center">
-  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
+  <b>简体中文</b> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">

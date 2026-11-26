@@ -21,7 +21,7 @@
 <p align="center"><b>ずっと無料</b> · アプリ内課金なし · サブスクなし · 広告なし · アカウント不要</p>
 
 <p align="center">
-  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · 日本語 · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
+  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <b>日本語</b> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">

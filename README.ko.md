@@ -21,7 +21,7 @@
 <p align="center"><b>영구 무료</b> · 인앱 결제 없음 · 구독 없음 · 광고 없음 · 계정 필요 없음</p>
 
 <p align="center">
-  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · 한국어 · <a href="LICENSE">MIT</a>
+  <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <b>한국어</b> · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">
