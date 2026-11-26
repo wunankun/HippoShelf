@@ -1,0 +1,41 @@
+河马置物架 · HippoShelf 1.8  安装说明
+====================================
+
+系统要求：macOS 13 或更新；Intel 和 Apple 芯片都能用（通用二进制）。
+
+一、安装
+1. 解压后，把 HippoShelf.app 拖进「应用程序」文件夹。
+2. 第一次打开不要直接双击：
+   在「应用程序」里右键点 HippoShelf → 选「打开」→ 弹窗里再点「打开」。
+   （这是本地签名的 App，macOS 会提示"无法验证开发者"，右键打开一次以后就正常了。）
+3. 如果提示"已损坏，无法打开"，打开「终端」，粘贴下面这行并回车：
+   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+   然后再打开一次。
+4. 打开后菜单栏会出现一只小河马图标；没有 Dock 图标，这是正常的。
+
+二、使用
+- 拖任意文件时，河马从屏幕右边滑出；把文件丢进它嘴里，可以连续放多个。
+- 单击选中、按空格预览、双击打开；⌘ / ⇧ / 在空白处拖动可以多选。
+- 从嘴里拖出去 = 复制到目标位置（原文件不动），同时从置物架移除。
+- 右耳的红色小鸟 = 清空；嘴里没文件时河马自动躲回屏幕边缘。
+- 顶部横条可以拖动整个架子，位置会记住。
+- 菜单栏：显示/隐藏置物架（⌘S）、清空置物架、卡通/简约皮肤、退出。
+- 第一次打开桌面 / 文稿 / 下载目录里的文件时，系统会问是否允许访问，点「允许」。
+- 文件多时嘴巴会变高，不滚动；空着嘴时只有一格高，文件多了嘴巴往上长。
+
+三、开机自启（可选）
+系统设置 → 通用 → 登录项 → 添加 HippoShelf。
+
+四、卸载
+点菜单栏小河马 →「退出置物架」，然后把 App 拖进废纸篓。
+
+五、隐私
+这只河马只在本机运行：不联网、不上传、不收集任何数据，只记住文件路径。
+退出 App 后列表清空，原文件不受影响。
+
+------------------------------------
+English (short)
+Requires macOS 13+. Right-click → Open the first time (locally signed, not notarized).
+If macOS says the app is damaged: xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+No Dock icon — the hippo lives in the menu bar. Drag files in, drag them out to copy.
+100% local: no network, no telemetry, MIT licensed. Source: https://github.com/wunankun/HippoShelf

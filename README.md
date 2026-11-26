@@ -14,11 +14,14 @@
   <img src="https://img.shields.io/badge/network-none-3FB950" alt="No network">
   <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="No telemetry">
   <img src="https://img.shields.io/badge/price-free-3FB950" alt="完全免费">
+  <a href="https://github.com/wunankun/HippoShelf/releases/latest"><img src="https://img.shields.io/github/v/release/wunankun/HippoShelf?label=download&color=2F81F7" alt="Download"></a>
   <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
   <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="GitHub stars"></a>
 </p>
 
 <p align="center"><b>完全免费</b> · 无内购 · 无订阅 · 无广告 · 无需账号</p>
+
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 下载 1.8 通用版（1.8 MB）</b></a></p>
 
 <p align="center">
   <b>简体中文</b> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -72,34 +75,42 @@
 
 ## 安装
 
-### 你需要
+### 方式一：直接下载（推荐）
 
-- macOS 13 或更新（Intel 和 Apple 芯片都支持）
-- **Xcode Command Line Tools**（约几百 MB）
+到 [Releases](https://github.com/wunankun/HippoShelf/releases/latest) 下载 `HippoShelf-1.8-universal.zip`（约 1.8 MB，Intel / Apple 芯片通用），解压后把 `HippoShelf.app` 拖进「应用程序」。
 
-> ⚠️ **不是每台 Mac 都自带。** 全新的 macOS 只有基础命令行工具，`swiftc` 和完整的 `git` 都要先安装 Command Line Tools；装完后不需要完整的 Xcode（几个 GB 的 Xcode.app 不用装）。
+- **第一次打开：** 右键 App →「打开」→ 再点「打开」（本地签名，未公证）
+- 提示「已损坏，无法打开」时：
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- 校验下载（可选）：`shasum -a 256 HippoShelf-1.8-universal.zip`，与 Release 页面的 `.sha256` 对比
 
-### 三步构建
+> 每次发版都由 GitHub Actions 从源码构建（[release.yml](.github/workflows/release.yml)），Release 里附 `.sha256` 校验文件。
+
+### 方式二：从源码构建
+
+需要 macOS 13+。**先检查**，缺了才安装：
 
 ```bash
-# 1) 安装命令行工具（只装一次；弹窗里点「安装」）
-xcode-select --install
-
-# 2) 确认安装成功（会输出 /Library/Developer/CommandLineTools 或 Xcode 路径）
 xcode-select -p
+```
 
-# 3) 克隆、构建、运行
+- 打印出路径（如 `/Library/Developer/CommandLineTools`）→ 已装好，直接跳到构建
+- 报错 `unable to get active developer directory` → 才需要安装：
+  ```bash
+  xcode-select --install
+  ```
+  弹窗点「安装」，装完再跑一次 `xcode-select -p` 确认
+
+```bash
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-小提示：
-
-- `git` 本身也由 Command Line Tools 提供。如果 `git clone` 时弹出「安装命令行工具」的提示，先完成第 1 步再重试。
-- 整个过程除了 `git clone` 不联网；`build.sh` 在本地编译，产物是 `HippoShelf.app`。
-- `build.sh` 会分别用 `swiftc` 编译 arm64 和 x86_64，再用 `lipo` 合成一个通用 App，然后拷贝 `Info.plist` 和图标。
+> 不需要完整的 Xcode（几个 GB），Command Line Tools 就够。`build.sh` 会分别编译 arm64 和 x86_64，用 `lipo` 合成一个通用 App。
 
 ### 首次打开
 
@@ -124,7 +135,7 @@ open HippoShelf.app
 ## 常见问题
 
 **Q：每台 Mac 都自带 Xcode Command Line Tools 吗？**
-A：不是。全新 macOS 没有 `swiftc`，第一次构建前需要 `xcode-select --install`（约几百 MB）。装 Command Line Tools 就够了，不需要完整的 Xcode。
+A：不是。先跑 `xcode-select -p` 检查：打印出路径就说明已装好；只有报错时才需要 `xcode-select --install`（约几百 MB）。Command Line Tools 就够，不需要完整的 Xcode。
 
 **Q：文件多了会怎样？**
 A：河马的嘴会一直变高，不滚动；屏幕放不下时先清空。

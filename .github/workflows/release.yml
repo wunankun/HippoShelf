@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build universal app and publish release
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check developer tools
+        run: |
+          # GitHub 的 macOS runner 自带 Xcode / Command Line Tools，这里只做确认。
+          # 本地构建才需要按 README 的说明先检查 xcode-select -p，缺了再装。
+          if ! xcode-select -p; then
+            echo "::error::没有找到 developer directory"
+            exit 1
+          fi
+          swift --version
+
+      - name: Build universal app
+        run: ./build.sh
+
+      - name: Package
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          OUT="dist/HippoShelf-${VERSION}"
+          mkdir -p "$OUT"
+          cp -R HippoShelf.app "$OUT/"
+          cp INSTALL.txt "$OUT/"
+          ditto -c -k --norsrc --noextattr --keepParent "$OUT" "dist/HippoShelf-${VERSION}-universal.zip"
+          cd dist
+          shasum -a 256 "HippoShelf-${VERSION}-universal.zip" > "HippoShelf-${VERSION}-universal.zip.sha256"
+          ls -lh
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: HippoShelf ${{ github.ref_name }}
+          draft: false
+          make_latest: true
+          overwrite_files: true
+          generate_release_notes: false
+          body: |
+            ## HippoShelf ${{ github.ref_name }}
+
+            解压后把 `HippoShelf.app` 拖进「应用程序」，第一次右键 →「打开」。
+            提示「已损坏」时：`xattr -dr com.apple.quarantine /Applications/HippoShelf.app`
+
+            通用二进制（arm64 + x86_64），要求 macOS 13+。完全免费、不联网。
+            Universal binary for Intel and Apple silicon. Free, local-only, MIT.
+
+            Unzip, drag to Applications, then right-click → Open the first time.
+            Checksum: see the `.sha256` file below.
+          files: |
+            dist/HippoShelf-*-universal.zip
+            dist/HippoShelf-*-universal.zip.sha256

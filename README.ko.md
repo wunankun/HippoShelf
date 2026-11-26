@@ -14,11 +14,14 @@
   <img src="https://img.shields.io/badge/network-none-3FB950" alt="네트워크 없음">
   <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="텔레메트리 없음">
   <img src="https://img.shields.io/badge/price-free-3FB950" alt="무료">
+  <a href="https://github.com/wunankun/HippoShelf/releases/latest"><img src="https://img.shields.io/github/v/release/wunankun/HippoShelf?label=download&color=2F81F7" alt="Download"></a>
   <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
   <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="스타"></a>
 </p>
 
 <p align="center"><b>영구 무료</b> · 인앱 결제 없음 · 구독 없음 · 광고 없음 · 계정 필요 없음</p>
+
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 1.8 다운로드 (유니버설, 1.8 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <b>한국어</b> · <a href="LICENSE">MIT</a>
@@ -72,34 +75,42 @@ macOS용 "잠깐 여기 둘게" 선반입니다. 파일을 드래그하기 시�
 
 ## 설치
 
-### 필요한 것
+### 방법 1: 다운로드 (권장)
 
-- macOS 13 이상 (Intel / Apple 실리콘 모두 지원)
-- **Xcode Command Line Tools** (수백 MB)
+[Releases](https://github.com/wunankun/HippoShelf/releases/latest)에서 `HippoShelf-1.8-universal.zip`(약 1.8 MB, Intel / Apple 실리콘 공용)을 내려받아 압축을 풀고 `HippoShelf.app`을 응용 프로그램 폴더로 드래그하세요.
 
-> ⚠️ **모든 Mac에 기본 설치되어 있지는 않습니다.** 새 macOS에는 `swiftc`가 없습니다. 먼저 Command Line Tools를 설치하세요. Xcode 본체(수 GB)는 필요 없습니다.
+- **첫 실행:** 앱을 우클릭 → 열기 → 다시 열기 (로컬 서명만, 공증 없음).
+- "손상되었기 때문에 열 수 없습니다"가 뜨면:
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- 체크섬(선택): `shasum -a 256 HippoShelf-1.8-universal.zip` 결과를 Release 페이지의 `.sha256` 파일과 비교.
 
-### 세 단계 빌드
+> 모든 릴리스는 GitHub Actions가 소스에서 빌드하며([release.yml](.github/workflows/release.yml)), `.sha256` 파일을 함께 제공합니다.
+
+### 방법 2: 소스에서 빌드
+
+macOS 13 이상이 필요합니다. **먼저 확인**하고, 없을 때만 설치하세요:
 
 ```bash
-# 1) 커맨드라인 도구 설치 (처음 한 번; 대화상자에서 "설치")
-xcode-select --install
-
-# 2) 확인 (/Library/Developer/CommandLineTools 또는 Xcode 경로 출력)
 xcode-select -p
+```
 
-# 3) 클론, 빌드, 실행
+- 경로(예: `/Library/Developer/CommandLineTools`)가 나오면 준비 완료. 설치를 건너뜁니다.
+- `unable to get active developer directory` 오류가 나면:
+  ```bash
+  xcode-select --install
+  ```
+  대화상자에서 설치를 누른 뒤 `xcode-select -p`로 다시 확인하세요.
+
+```bash
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-팁:
-
-- `git`도 Command Line Tools에 포함됩니다. `git clone`이 설치를 요구하면 1단계를 마친 뒤 다시 시도하세요.
-- 네트워크를 쓰는 것은 `clone`뿐. `build.sh`는 로컬에서 빌드해 `HippoShelf.app`을 만듭니다.
-- `build.sh`는 arm64와 x86_64를 `swiftc`로 컴파일한 뒤 `lipo`로 합치고 `Info.plist`와 아이콘을 복사합니다.
+> 전체 Xcode(수 GB)는 필요 없고 Command Line Tools로 충분합니다. `build.sh`가 arm64와 x86_64를 각각 빌드해 `lipo`로 하나의 유니버설 앱으로 합칩니다.
 
 ### 첫 실행
 
@@ -124,7 +135,7 @@ open HippoShelf.app
 ## 자주 묻는 질문
 
 **Q: 모든 Mac에 Xcode Command Line Tools가 있나요?**
-A: 아닙니다. 새 macOS에는 `swiftc`가 없습니다. 빌드 전에 `xcode-select --install`(수백 MB)을 실행하세요. Xcode 본체는 필요 없습니다.
+A: 아닙니다. 먼저 `xcode-select -p`를 실행하세요. 경로가 나오면 준비 완료입니다. 오류가 날 때만 `xcode-select --install`(수백 MB)이 필요합니다. Xcode 본체는 필요 없습니다.
 
 **Q: 파일이 많아지면 어떻게 되나요?**
 A: 입이 계속 커지고 스크롤은 없습니다. 화면에 안 들어가면 비워 주세요.

@@ -14,11 +14,14 @@
   <img src="https://img.shields.io/badge/network-none-3FB950" alt="Sin red">
   <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="Sin telemetría">
   <img src="https://img.shields.io/badge/price-free-3FB950" alt="Gratis">
+  <a href="https://github.com/wunankun/HippoShelf/releases/latest"><img src="https://img.shields.io/github/v/release/wunankun/HippoShelf?label=download&color=2F81F7" alt="Download"></a>
   <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
   <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="Estrellas"></a>
 </p>
 
 <p align="center"><b>Gratis para siempre</b> · Sin compras dentro de la app · Sin suscripción · Sin anuncios · Sin cuenta</p>
+
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Descargar 1.8 (universal, 1,8 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <b>Español</b> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -72,34 +75,42 @@ En una frase: guarda rutas, nunca contenidos, y nunca llama a casa.
 
 ## Instalación
 
-### Requisitos
+### Opción 1: Descargar (recomendado)
 
-- macOS 13 o posterior (Intel y Apple silicon)
-- **Xcode Command Line Tools** (unos cientos de MB)
+Descarga `HippoShelf-1.8-universal.zip` desde [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1,8 MB, universal para Intel y Apple silicon), descomprímelo y arrastra `HippoShelf.app` a Aplicaciones.
 
-> ⚠️ **No viene instalado en todos los Mac.** Un macOS nuevo no tiene `swiftc`; instala primero las Command Line Tools. No necesitas el Xcode completo (varios GB).
+- **Primera apertura:** clic derecho en la app → Abrir → Abrir otra vez (firmada localmente, sin notarizar).
+- Si macOS dice que la app está dañada:
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- Comprobación opcional: compara `shasum -a 256 HippoShelf-1.8-universal.zip` con el archivo `.sha256` de la página de la release.
 
-### Compilar en tres pasos
+> Cada release se compila desde el código con GitHub Actions ([release.yml](.github/workflows/release.yml)) e incluye un `.sha256`.
+
+### Opción 2: Compilar desde el código
+
+Requiere macOS 13+. **Primero comprueba**, instala solo si falta:
 
 ```bash
-# 1) Instala las herramientas (una vez; pulsa "Instalar" en el diálogo)
-xcode-select --install
-
-# 2) Verifica (imprime /Library/Developer/CommandLineTools o la ruta de Xcode)
 xcode-select -p
+```
 
-# 3) Clona, compila, ejecuta
+- Si imprime una ruta (p. ej. `/Library/Developer/CommandLineTools`) → ya está listo; sáltate la instalación.
+- Si da error `unable to get active developer directory` → instala:
+  ```bash
+  xcode-select --install
+  ```
+  Pulsa Instalar en el diálogo y vuelve a ejecutar `xcode-select -p` para confirmar.
+
+```bash
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-Consejos:
-
-- `git` también viene con las Command Line Tools. Si `git clone` te pide instalarlas, termina el paso 1 y reintenta.
-- Solo el `clone` usa la red; `build.sh` compila en local y genera `HippoShelf.app`.
-- `build.sh` compila arm64 y x86_64 con `swiftc`, los une con `lipo` y copia `Info.plist` y el icono.
+> No necesitas el Xcode completo (varios GB): basta con Command Line Tools. `build.sh` compila arm64 y x86_64 y los une con `lipo` en una app universal.
 
 ### Primera apertura
 
@@ -124,7 +135,7 @@ Consejos:
 ## Preguntas frecuentes
 
 **¿Todos los Mac traen Xcode Command Line Tools?**
-No. Un macOS nuevo no tiene `swiftc`; ejecuta `xcode-select --install` (unos cientos de MB) antes de compilar. No hace falta el Xcode completo.
+No. Ejecuta primero `xcode-select -p`: si imprime una ruta, ya está listo. Solo si da error necesitas `xcode-select --install` (unos cientos de MB). No hace falta el Xcode completo.
 
 **¿Qué pasa si añado muchos archivos?**
 La boca crece sin desplazamiento; vacíalo si no cabe en la pantalla.

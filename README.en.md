@@ -14,11 +14,14 @@
   <img src="https://img.shields.io/badge/network-none-3FB950" alt="No network">
   <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="No telemetry">
   <img src="https://img.shields.io/badge/price-free-3FB950" alt="Free">
+  <a href="https://github.com/wunankun/HippoShelf/releases/latest"><img src="https://img.shields.io/github/v/release/wunankun/HippoShelf?label=download&color=2F81F7" alt="Download"></a>
   <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
   <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="GitHub stars"></a>
 </p>
 
 <p align="center"><b>Free forever</b> · No in-app purchases · No subscription · No ads · No account</p>
+
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Download 1.8 (universal, 1.8 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <b>English</b> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -72,34 +75,42 @@ In one sentence: it parks paths, never contents, and never phones home.
 
 ## Install
 
-### Requirements
+### Option 1: Download (recommended)
 
-- macOS 13 or later (Intel and Apple silicon both supported)
-- **Xcode Command Line Tools** (a few hundred MB)
+Get `HippoShelf-1.8-universal.zip` from [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1.8 MB, universal for Intel and Apple silicon), unzip it, and drag `HippoShelf.app` into Applications.
 
-> ⚠️ **Not preinstalled on every Mac.** A fresh macOS has no `swiftc` and no full `git`; install the Command Line Tools first. You do *not* need the full Xcode (several GB).
+- **First launch:** right-click the app → Open → Open again (locally signed, not notarized).
+- If macOS says the app is damaged:
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- Optional checksum: compare `shasum -a 256 HippoShelf-1.8-universal.zip` with the `.sha256` file on the release page.
 
-### Build in three steps
+> Every release is built from source by GitHub Actions ([release.yml](.github/workflows/release.yml)) and ships with a `.sha256` checksum.
+
+### Option 2: Build from source
+
+Requires macOS 13+. **Check first**, install only if needed:
 
 ```bash
-# 1) Install the command line tools (once; click "Install" in the dialog)
-xcode-select --install
-
-# 2) Verify the install (prints /Library/Developer/CommandLineTools or the Xcode path)
 xcode-select -p
+```
 
-# 3) Clone, build, run
+- Prints a path (e.g. `/Library/Developer/CommandLineTools`) → ready; skip the install.
+- Errors with `unable to get active developer directory` → then install:
+  ```bash
+  xcode-select --install
+  ```
+  Click Install in the dialog, then run `xcode-select -p` again to confirm.
+
+```bash
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-Tips:
-
-- `git` itself ships with the Command Line Tools. If `git clone` prompts you to install them, finish step 1 and retry.
-- Nothing except the clone touches the network; `build.sh` compiles locally and produces `HippoShelf.app`.
-- `build.sh` compiles arm64 and x86_64 with `swiftc`, merges them with `lipo`, then copies `Info.plist` and the icon.
+> Full Xcode (several GB) is not needed — Command Line Tools are enough. `build.sh` compiles arm64 and x86_64, then `lipo`s them into one universal app.
 
 ### First launch
 
@@ -124,7 +135,7 @@ Tips:
 ## FAQ
 
 **Q: Does every Mac come with Xcode Command Line Tools?**
-A: No. A fresh macOS has no `swiftc`; run `xcode-select --install` (a few hundred MB) before the first build. Full Xcode is not required.
+A: No. Run `xcode-select -p` first: if it prints a path, you are ready. Only if it errors do you need `xcode-select --install` (a few hundred MB). Full Xcode is not required.
 
 **Q: What happens when I add many files?**
 A: The mouth keeps growing and never scrolls. Clear it if it runs out of screen.
