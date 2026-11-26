@@ -1,70 +1,170 @@
-# HippoShelf
+<p align="center">
+  <img src="docs/icon.png" width="120" alt="HippoShelf 아이콘: 검은 하마">
+</p>
 
-파일을 하마 입에 톡.
+<h1 align="center">HippoShelf</h1>
 
-macOS용 임시 보관함입니다. 파일을 드래그하기 시작하면 화면 오른쪽 가장자리에서 하마가 나타나 입을 벌립니다. 입 안에 놓으면 잠시 맡아 둡니다. 입이 비면 다시 숨습니다.
+<p align="center">파일을 드래그하기 시작하면 화면 오른쪽 가장자리에서 하마가 입을 벌리고 나타나 잠시 맡아 둡니다.</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/macOS-13.0%2B-000000?logo=apple&logoColor=white" alt="macOS 13+">
+  <img src="https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white" alt="Swift 5.9">
+  <img src="https://img.shields.io/badge/Universal-arm64%20%7C%20x86__64-2F81F7" alt="유니버설">
+  <img src="https://img.shields.io/badge/privacy-local%20only-3FB950" alt="완전 로컬">
+  <img src="https://img.shields.io/badge/network-none-3FB950" alt="네트워크 없음">
+  <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="텔레메트리 없음">
+  <img src="https://img.shields.io/badge/price-free-3FB950" alt="무료">
+  <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
+  <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="스타"></a>
+</p>
+
+<p align="center"><b>영구 무료</b> · 인앱 결제 없음 · 구독 없음 · 광고 없음 · 계정 필요 없음</p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · 한국어 · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">
-  <img src="docs/cartoon.png" width="170" alt="카툰 스킨: 검은 하마 얼굴">
+  <img src="docs/cartoon.png" width="170" alt="카툰 스킨: 파일 두 개를 문 검은 하마">
   &nbsp;&nbsp;
-  <img src="docs/glass.png" width="180" alt="심플 스킨: 반투명 유리 카드">
+  <img src="docs/glass.png" width="180" alt="심플 스킨: 유리 카드">
 </p>
+<p align="center"><sub>왼쪽: 카툰 스킨 · 오른쪽: 심플 스킨</sub></p>
 
-## 왜
+> **무료 오픈소스, 광고도 결제도 없습니다. 바탕 화면을 여는 수고가 줄었다면 ⭐ 스타로 응원해 주세요.**
 
-스크린샷, 소재, 보낼 파일이 바탕 화면에 쌓입니다. 하마는 드래그하는 동안에만 나타나므로 방해되지 않습니다.
+## 무엇인가
+
+macOS용 "잠깐 여기 둘게" 선반입니다. 파일을 드래그하기 시작하면 오른쪽 가장자리에서 나타나고, 하마 입에 놓으면 잠시 보관합니다. 필요할 때 다시 꺼내 쓰고, 입이 비면 다시 숨습니다.
+
+파일을 관리하거나 가져가지 않습니다. "곧 쓸 몇 개의 파일"에게 눈에 보이는 임시 자리를 줄 뿐입니다. 예를 들어:
+
+- **파일 보낼 때** (카카오톡, 메일, Slack): 보낼 파일을 입에 모아 두었다가 채팅창으로 한 번에
+- **디자인·집필 중**: 스크린샷을 일단 입에 넣고, 나중에 Figma나 문서로
+- **정리 중**: 여러 폴더에서 고른 파일을 잠시 모았다가 목적지로 한 번에
 
 ## 기능
 
-- **드래그하면 등장**: 파일을 드래그하기 시작하면 오른쪽 가장자리에서 미끄러져 나옵니다
-- **입으로 받기**: 하마 얼굴 위에서 놓으면 보관합니다. 중복 파일은 자동으로 건너뜁니다
-- **임시 보관함**: 한 줄에 파일 하나, 썸네일과 파일 이름. 파일이 늘면 입이 세로로 커집니다(스크롤 없음). 비우면 자동으로 숨습니다
-- **꺼내기**: 밖으로 드래그하면 복사됩니다(원본은 그대로). 클릭으로 선택, 스페이스로 훑어보기, 더블클릭으로 열기
-- **다중 선택**: ⌘ 클릭, ⇧ 클릭, 빈 곳에서 드래그해 범위 선택. 한꺼번에 꺼낼 수 있습니다
-- **두 가지 스킨**: 카툰(검은 하마 얼굴) / 심플(반투명 유리). 메뉴 막대에서 전환
-- **원하는 곳에 배치**: 상단을 드래그해 이동. 다음에 표시될 때도 그 자리에
-- **메뉴 막대**: 보기/숨기기(⌘S), 비우기, 스킨, 종료
-- **작은 움직임**: 눈 깜빡임, 귀 흔들림, 마우스를 따라오는 눈동자(카툰 스킨)
+- 🐡 **드래그하면 나타남**: 파일을 드래그하기 시작하면 오른쪽 가장자리에서 슬라이드
+- 👄 **입으로 받기**: 하마 얼굴 위에서 놓으면 보관. 중복 파일은 자동 제외
+- 📚 **관리 도구가 아닌 선반**: 한 줄에 파일 하나, 썸네일 + 이름. 파일이 늘면 입이 세로로 커짐 (스크롤 없음)
+- 🫥 **비면 숨음**: 화면 가장자리로 돌아갑니다
+- 🖱 **꺼내기**: 밖으로 드래그하면 **복사** (원본 유지). 클릭 선택, Space 훑어보기, 더블클릭 열기
+- 🎯 **다중 선택**: ⌘ / ⇧ / 빈 곳 드래그로 선택, 한꺼번에 꺼내기
+- 🎨 **두 가지 스킨**: 카툰(검은 하마) / 심플(macOS 유리), 메뉴 막대에서 전환
+- 📍 **원하는 곳에 두기**: 상단 바를 드래그해 이동, 위치 기억
+- 🧠 **작은 움직임**: 눈 깜빡임, 귀 흔들림, 마우스를 따라오는 눈동자 (카툰)
+- 💸 **완전 무료**: 인앱 결제·구독·광고·계정 없음
+- 🔒 **완전 로컬**: 네트워크 없음, 텔레메트리 없음
 
-## 요구 사항
+## 개인정보
 
-macOS 13 이상, Intel 및 Apple Silicon 지원(유니버설 바이너리).
+**이 프로젝트의 가장 중요한 설계 결정: 인터넷에 연결하지 않으며, 무료입니다.**
 
-## 빌드
+- **네트워크 코드 없음**: `URLSession`도, 분석도, 크래시 전송도, 계정도 없습니다
+- **업로드 없음**: 메모리에 저장하는 것은 파일 **경로**뿐. 앱을 종료하면 목록이 비워집니다
+- **파일을 건드리지 않음**: 밖으로 드래그하면 **복사**. 원본은 삭제·이동·이름 변경되지 않습니다
+- **오픈소스**: 로직은 Swift 3개 파일뿐, 줄 단위로 검토할 수 있습니다
+- **외부 의존성 없음**: Apple AppKit만 사용. 패키지 관리자도 바이너리 의존성도 없습니다
+- **요금 없음**: 결제·구독·광고 없음, 가입을 요구하지도 않습니다
 
-Xcode Command Line Tools가 필요합니다(`xcode-select --install`):
+한 줄로: 경로만 보관하고, 내용은 건드리지 않으며, 어디에도 보내지 않습니다.
+
+## 설치
+
+### 필요한 것
+
+- macOS 13 이상 (Intel / Apple 실리콘 모두 지원)
+- **Xcode Command Line Tools** (수백 MB)
+
+> ⚠️ **모든 Mac에 기본 설치되어 있지는 않습니다.** 새 macOS에는 `swiftc`가 없습니다. 먼저 Command Line Tools를 설치하세요. Xcode 본체(수 GB)는 필요 없습니다.
+
+### 세 단계 빌드
 
 ```bash
+# 1) 커맨드라인 도구 설치 (처음 한 번; 대화상자에서 "설치")
+xcode-select --install
+
+# 2) 확인 (/Library/Developer/CommandLineTools 또는 Xcode 경로 출력)
+xcode-select -p
+
+# 3) 클론, 빌드, 실행
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-`build.sh`는 arm64와 x86_64를 `swiftc`로 컴파일한 뒤 `lipo`로 유니버설 바이너리로 합칩니다.
+팁:
+
+- `git`도 Command Line Tools에 포함됩니다. `git clone`이 설치를 요구하면 1단계를 마친 뒤 다시 시도하세요.
+- 네트워크를 쓰는 것은 `clone`뿐. `build.sh`는 로컬에서 빌드해 `HippoShelf.app`을 만듭니다.
+- `build.sh`는 arm64와 x86_64를 `swiftc`로 컴파일한 뒤 `lipo`로 합치고 `Info.plist`와 아이콘을 복사합니다.
+
+### 첫 실행
+
+- 처음에는 더블클릭하지 말고 **우클릭 → 열기 → 열기** (로컬 서명, 공증 없음)
+- "손상되었기 때문에 열 수 없습니다"가 나오면:
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- Dock에 아이콘은 없습니다. 메뉴 막대의 하마가 본체입니다 (정상)
+- 데스크톱 / 문서 / 다운로드에서 처음 놓을 때 권한을 물으면 허용하세요
+- 로그인 시 실행: 시스템 설정 → 일반 → 로그인 항목
 
 ## 사용법
 
-`HippoShelf.app`을 「응용 프로그램」으로 옮기세요:
+- 파일 드래그 → 하마 등장 → 입에 놓기
+- 클릭 선택, Space 훑어보기, 더블클릭 열기; ⌘ / ⇧ / 드래그로 다중 선택
+- 선택한 파일을 입 밖으로 드래그하면 **복사**되고 선반에서 빠집니다 (원본 유지)
+- 오른쪽 귀의 빨간 새 = 비우기; 비면 자동으로 숨습니다
+- 상단 바를 드래그해 이동; 위치는 기억됩니다 (⌘S로 언제든 표시)
+- 메뉴 막대: 표시/숨기기, 비우기, 스킨, 종료
 
-- 첫 실행: 앱을 오른쪽 클릭 → 「열기」 → 한 번 더 「열기」(로컬 서명)
-- "손상되었기 때문에 열 수 없습니다"가 나오면: `xattr -dr com.apple.quarantine /Applications/HippoShelf.app`
-- Dock에는 아이콘이 없고 메뉴 막대의 작은 하마만 보입니다
-- 처음 데스크탑/서류/다운로드 접근을 요청하면 허용하세요
-- 로그인 시 실행: 시스템 설정 → 일반 → 로그인 항목
+## 자주 묻는 질문
 
-## 참고
+**Q: 모든 Mac에 Xcode Command Line Tools가 있나요?**
+A: 아닙니다. 새 macOS에는 `swiftc`가 없습니다. 빌드 전에 `xcode-select --install`(수백 MB)을 실행하세요. Xcode 본체는 필요 없습니다.
 
-- 보관함은 파일 경로만 기억합니다. 파일을 옮기거나 복사하거나 업로드하지 않습니다. 앱을 종료하면 목록이 비워집니다
-- 파일이 많아지면 입이 계속 커집니다(스크롤 없음). 화면에 다 안 들어가면 비워 주세요
-- 밖으로 드래그하면 복사됩니다. 원본 파일은 삭제되지 않습니다
+**Q: 파일이 많아지면 어떻게 되나요?**
+A: 입이 계속 커지고 스크롤은 없습니다. 화면에 안 들어가면 비워 주세요.
+
+**Q: 파일을 삭제하나요?**
+A: 아닙니다. 경로만 보관합니다. 밖으로 드래그하면 복사되고, 종료하면 목록만 비워집니다.
+
+**Q: 파일을 업로드하나요?**
+A: 아닙니다. 네트워크 코드가 전혀 없습니다. 소스에서 `URLSession`을 찾아보세요.
+
+**Q: 다중 디스플레이 / 스페이스?**
+A: 지원합니다. 이동한 화면을 따라가고 위치를 기억합니다.
+
+**Q: 상업적 사용이 가능한가요?**
+A: MIT이므로 가능합니다. 저작권 표시를 유지하세요.
+
+**Q: 왜 하마인가요?**
+A: 입이 커서요.
+
+## 프로젝트 구조
+
+```
+Sources/
+  ShelfStore.swift   선반의 파일 목록 (메모리에만)
+  HippoPanel.swift   하마 얼굴 그리기, 창, 셀, 드래그 앤 드롭
+  main.swift         앱 진입점, 메뉴 막대, 드래그 감시
+Resources/           앱 아이콘
+docs/                README 스크린샷
+build.sh             유니버설 바이너리 빌드 (arm64 + x86_64)
+Info.plist           앱 메타데이터 (LSUIElement: Dock 아이콘 없음)
+```
+
+## 기여
+
+- 유용했다면 → ⭐ 스타 (정말 큰 힘이 됩니다)
+- 버그 / 기능 제안 → Issue를 열어 주세요
+- 코드 → PR 환영. 올리기 전에 `./build.sh`로 유니버설 빌드가 되는지 확인해 주세요
+
+아이콘은 AI 도구로 생성한 뒤 작성자가 다듬었으며, 프로젝트와 함께 MIT로 공개합니다.
 
 ## 라이선스
 
 [MIT](LICENSE) © 2026 wunankun
-
-앱 아이콘은 AI 도구로 생성한 뒤 작성자가 다듬었습니다.

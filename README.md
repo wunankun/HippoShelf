@@ -1,91 +1,170 @@
-# 河马置物架 · HippoShelf
+<p align="center">
+  <img src="docs/icon.png" width="120" alt="HippoShelf 图标：一只黑色的卡通河马">
+</p>
 
-把文件丢进河马的嘴里。
+<h1 align="center">河马置物架 · HippoShelf</h1>
 
-一个 macOS 上的临时置物架：拖任意文件的时候，一只河马从屏幕右边滑出来，张嘴接住你暂时放下的东西；空了就自己躲回去。
+<p align="center">拖文件的时候，一只河马从屏幕右边探出头，张嘴接住你暂时放下的东西。</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/macOS-13.0%2B-000000?logo=apple&logoColor=white" alt="macOS 13+">
+  <img src="https://img.shields.io/badge/Swift-5.9-F05138?logo=swift&logoColor=white" alt="Swift 5.9">
+  <img src="https://img.shields.io/badge/Universal-arm64%20%7C%20x86__64-2F81F7" alt="Universal binary">
+  <img src="https://img.shields.io/badge/privacy-local%20only-3FB950" alt="100% local">
+  <img src="https://img.shields.io/badge/network-none-3FB950" alt="No network">
+  <img src="https://img.shields.io/badge/telemetry-none-3FB950" alt="No telemetry">
+  <img src="https://img.shields.io/badge/price-free-3FB950" alt="完全免费">
+  <img src="https://img.shields.io/github/license/wunankun/HippoShelf?color=3FB950" alt="MIT">
+  <a href="https://github.com/wunankun/HippoShelf/stargazers"><img src="https://img.shields.io/github/stars/wunankun/HippoShelf?style=social" alt="GitHub stars"></a>
+</p>
+
+<p align="center"><b>完全免费</b> · 无内购 · 无订阅 · 无广告 · 无需账号</p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
 </p>
 
 <p align="center">
-  <img src="docs/icon.png" width="112" alt="App 图标">
-</p>
-
-<p align="center">
-  <img src="docs/cartoon.png" width="170" alt="卡通皮肤：黑色河马脸">
+  <img src="docs/cartoon.png" width="170" alt="卡通皮肤：黑色河马，嘴里放着两个文件">
   &nbsp;&nbsp;
-  <img src="docs/glass.png" width="180" alt="简约皮肤：毛玻璃卡片">
+  <img src="docs/glass.png" width="180" alt="简约皮肤：毛玻璃卡片，显示拖文件提示">
 </p>
+<p align="center"><sub>左：卡通皮肤 · 右：简约皮肤</sub></p>
 
-## 为什么
+> **免费开源，没有内购和广告。如果这个小工具帮你少翻了一次桌面，点个 ⭐ Star 就是最好的支持。**
 
-截图、素材、待发的文件，临时放在桌面上会摊成一堆。这个置物架只在你拖动文件时出现，用完就走——不占桌面，也不打断手头的事。
+## 它是什么
+
+一个 macOS 上的「随手放一下」置物架。拖任意文件时它从屏幕右边滑出来，把文件丢进河马嘴里暂存；用完拖走，嘴巴空了它就自己躲回去。
+
+它不接管你的文件，也不试图管理文件——只是给"待会儿要用的那几个文件"一个临时的、看得见的地方。比如：
+
+- **发微信 / 邮件**：先把要发的文件都丢进嘴里，再一起拖进对话框
+- **做设计 / 写文档**：截图随手丢进去，等会儿统一拖进 Figma 或文档里
+- **整理文件**：从不同文件夹挑出来的东西先暂存，再一次性拖去目的地
 
 ## 功能
 
-- **拖拽唤出**：开始拖动任意文件时，从屏幕右边缘滑出
-- **张嘴接住**：拖到河马脸上松手就收下；可以连续放多个，重复的文件自动跳过
-- **临时置物架**：一行一个文件，缩略图 + 文件名；嘴巴随文件数变高，不滚动；清空后自动缩回屏幕边缘
-- **拿回来**：拖出去 = 复制到目标位置（原文件不动）；单击选中，空格 Quick Look 预览，双击打开
-- **多选**：⌘ 点选、⇧ 连选、在空白处按住框选；可以整组拖出
-- **两种皮肤**：卡通（黑色河马脸）/ 简约（macOS 毛玻璃卡片），菜单栏随时切换
-- **随便摆**：拖动顶部就能把架子放到屏幕任意位置，下次显示还在那
-- **菜单栏控制**：显示/隐藏置物架（⌘S）、清空、皮肤、退出
-- **小动作**：眨眼、耳朵摆动、眼珠跟着鼠标转（卡通皮肤）
+- 🐡 **拖拽唤出**：开始拖任意文件时，从屏幕右边缘滑出，不挡视线
+- 👄 **张嘴接住**：拖到河马脸上松手就收下；可以连续放多个，重复的文件自动跳过
+- 📚 **临时置物架**：一行一个文件，缩略图 + 文件名；嘴巴随文件数变高，不滚动
+- 🫥 **自动隐藏**：清空后自己缩回屏幕边缘，不占地方
+- 🖱 **拿回来**：拖出去 = 复制到目标位置（原文件不动）；单击选中、空格 Quick Look、双击打开
+- 🎯 **多选**：⌘ 点选、⇧ 连选、空白处按住框选；可以整组拖出
+- 🎨 **两种皮肤**：卡通（黑色河马脸）/ 简约（macOS 毛玻璃卡片），菜单栏随时切换
+- 📍 **随便摆**：拖动顶部把架子放到屏幕任意位置，下次显示还在那儿
+- 🧠 **小动作**：眨眼、耳朵摆动、眼珠跟着鼠标转（卡通皮肤）
+- 💸 **完全免费**：没有内购、订阅或广告，也不用注册账号
+- 🔒 **全程本地**：不联网、无账号、无埋点
 
-## 系统要求
+## 隐私
 
-macOS 13 或更新，Intel 与 Apple 芯片都可以（通用二进制）。
+**这是这个项目最重要的设计决定：它不联网，也完全免费。**
 
-## 构建
+- **没有网络请求**：源码里没有 `URLSession`、没有埋点、没有崩溃上报、没有账号体系
+- **不上传文件**：只把「文件路径」放在内存里；退出 App，列表就清空
+- **不碰你的文件**：拖出是**复制**，原文件不会被删、被移动、被改名
+- **开源可验证**：全部逻辑就在 3 个 Swift 文件里，欢迎逐行审查
+- **零第三方依赖**：只用 macOS 自带的 AppKit，没有包管理器、没有二进制依赖
+- **不收费**：没有内购、订阅、广告，项目也不引导你注册任何账号
 
-需要 Xcode Command Line Tools（`xcode-select --install`）：
+一句话：它只帮你暂存路径，不碰内容，也不联网。
+
+## 安装
+
+### 你需要
+
+- macOS 13 或更新（Intel 和 Apple 芯片都支持）
+- **Xcode Command Line Tools**（约几百 MB）
+
+> ⚠️ **不是每台 Mac 都自带。** 全新的 macOS 只有基础命令行工具，`swiftc` 和完整的 `git` 都要先安装 Command Line Tools；装完后不需要完整的 Xcode（几个 GB 的 Xcode.app 不用装）。
+
+### 三步构建
 
 ```bash
+# 1) 安装命令行工具（只装一次；弹窗里点「安装」）
+xcode-select --install
+
+# 2) 确认安装成功（会输出 /Library/Developer/CommandLineTools 或 Xcode 路径）
+xcode-select -p
+
+# 3) 克隆、构建、运行
 git clone https://github.com/wunankun/HippoShelf.git
 cd HippoShelf
 ./build.sh
 open HippoShelf.app
 ```
 
-`build.sh` 会用 `swiftc` 分别编译 arm64 与 x86_64，再用 `lipo` 合成通用二进制。
+小提示：
+
+- `git` 本身也由 Command Line Tools 提供。如果 `git clone` 时弹出「安装命令行工具」的提示，先完成第 1 步再重试。
+- 整个过程除了 `git clone` 不联网；`build.sh` 在本地编译，产物是 `HippoShelf.app`。
+- `build.sh` 会分别用 `swiftc` 编译 arm64 和 x86_64，再用 `lipo` 合成一个通用 App，然后拷贝 `Info.plist` 和图标。
+
+### 首次打开
+
+- 第一次**不要直接双击**：在 Finder 里右键 →「打开」→ 再点「打开」（本地签名，未经过公证）
+- 如果提示「已损坏，无法打开」，在终端执行：
+  ```bash
+  xattr -dr com.apple.quarantine /Applications/HippoShelf.app
+  ```
+- 打开后 Dock 里没有图标，菜单栏会出现一只小河马，这是正常的
+- 第一次拖桌面 / 文稿 / 下载里的文件时，系统会询问权限，允许即可
+- 开机自启：系统设置 → 通用 → 登录项 → 添加 HippoShelf
 
 ## 使用
 
-把 `HippoShelf.app` 拖进「应用程序」：
+- 拖任意文件 → 河马滑出 → 松手放进嘴里
+- 点文件选中，空格 Quick Look，双击打开；⌘ / ⇧ / 框选可以多选
+- 按住选中的文件往嘴里外面拖 = 复制出去（原文件还在），同时从置物架移除
+- 右耳的红色小鸟 = 清空；清空后自动缩回屏幕边缘
+- 顶部横条可以拖动整个架子；位置会记住（菜单栏「显示置物架」⌘S 随时叫回）
+- 菜单栏：显示/隐藏、清空、卡通/简约皮肤、退出
 
-- 第一次打开：在「应用程序」里右键 →「打开」，再点一次「打开」（本地签名，不是 App Store 应用）
-- 提示「已损坏」时：`xattr -dr com.apple.quarantine /Applications/HippoShelf.app`
-- 打开后没有 Dock 图标，只有菜单栏一只小河马，这是正常的
-- 第一次访问桌面 / 文稿 / 下载目录时系统会询问权限，允许即可
-- 开机自启：系统设置 → 通用 → 登录项 → 添加 HippoShelf
+## 常见问题
 
-## 说明与限制
+**Q：每台 Mac 都自带 Xcode Command Line Tools 吗？**
+A：不是。全新 macOS 没有 `swiftc`，第一次构建前需要 `xcode-select --install`（约几百 MB）。装 Command Line Tools 就够了，不需要完整的 Xcode。
 
-- 置物架只记录文件路径，**不移动、不复制、不上传**任何文件；退出 App 后列表清空（原文件当然还在）
-- 文件多时嘴巴一直变高、不滚动，屏幕放不下时请先清空
-- 从嘴里拖出去是**复制**，原文件不会被删
+**Q：文件多了会怎样？**
+A：河马的嘴会一直变高，不滚动；屏幕放不下时先清空。
 
-## 目录结构
+**Q：会删除我的文件吗？**
+A：不会。置物架只记录路径；从嘴里拖出去是复制，原文件不动；退出 App 只是清空列表。
+
+**Q：它会把我的文件传到网上吗？**
+A：不会。App 里没有任何网络代码，也不收集数据；你可以直接在源码里搜 `URLSession`。
+
+**Q：支持多显示器和多桌面空间吗？**
+A：支持，置物架会跟着你拖到的那块屏幕，并记住位置。
+
+**Q：可以商用吗？**
+A：可以，MIT 协议，保留版权声明即可。
+
+**Q：为什么叫河马？**
+A：因为嘴巴大，能装。
+
+## 项目结构
 
 ```
 Sources/
-  ShelfStore.swift   置物架的文件列表（内存）
+  ShelfStore.swift   置物架的文件列表（只在内存）
   HippoPanel.swift   河马脸绘制、窗口、文件格、拖放
   main.swift         App 入口、菜单栏、拖拽监听
 Resources/           App 图标
 docs/                README 截图
-build.sh             构建通用二进制
-Info.plist           App 元信息
+build.sh             构建通用二进制（arm64 + x86_64）
+Info.plist           App 元信息（LSUIElement 无 Dock 图标）
 ```
 
-## English
+## 参与
 
-A tiny drag-and-drop shelf for macOS shaped like a hippo's mouth. Drag any file and a hippo slides in from the right edge of the screen; drop files into its mouth to park them for a while. It hides when empty, supports multi-select, Quick Look, two skins (cartoon hippo / translucent glass), and a freely draggable position. Built with Swift + AppKit as a universal binary, macOS 13+.
+- 觉得有用 → ⭐ Star（真的很有用）
+- 发现 bug / 想要功能 → 开 Issue
+- 想改代码 → 欢迎 PR；改完跑一遍 `./build.sh` 确认通用版能构建
+
+图标由作者用 AI 工具生成后处理，随项目以 MIT 协议发布。
 
 ## License
 
 [MIT](LICENSE) © 2026 wunankun
-
-App 图标由作者用 AI 工具生成后处理，随项目一并发布。
