@@ -52,11 +52,19 @@ jobs:
           body: |
             ## HippoShelf ${{ github.ref_name }}
 
-            解压后把 `HippoShelf.app` 拖进「应用程序」，第一次右键 →「打开」。
-            提示「已损坏」时：`xattr -dr com.apple.quarantine /Applications/HippoShelf.app`
+            一只用嘴帮你临时存文件的河马形置物架 · 免费、开源、100% 本地。
 
-            通用二进制（arm64 + x86_64），要求 macOS 13+。完全免费、不联网。
-            Universal binary for Intel and Apple silicon. Free, local-only, MIT.
+            ### 安装
+            1. 解压，把 `HippoShelf.app` 拖进「应用程序」
+            2. 第一次右键 →「打开」→ 再点「打开」
+            3. 提示「已损坏」时：`xattr -dr com.apple.quarantine /Applications/HippoShelf.app`
+
+            通用二进制（arm64 + x86_64），要求 macOS 13+。sha256 见 `.sha256` 文件。
+
+            ---
+
+            A hippo-shaped shelf that holds files for a moment. Free, open source, 100% local.
+            Universal binary (arm64 + x86_64), macOS 13+. MIT licensed.
 
             Unzip, drag to Applications, then right-click → Open the first time.
             Checksum: see the `.sha256` file below.
