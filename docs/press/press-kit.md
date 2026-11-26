@@ -1,16 +1,16 @@
 # HippoShelf — Press Kit
 
-Everything a directory, newsletter or reviewer needs. Last updated: 2026-11-26 (v1.8).
+Everything a directory, newsletter or reviewer needs. Last updated: 2026-11-26 (v1.9).
 
 ## Quick facts
 
 | | |
 |---|---|
 | Name | **HippoShelf** |
-| Version | 1.8 |
+| Version | 1.9 |
 | Platform | macOS 13 Ventura or later |
 | Architecture | Universal — Apple Silicon (arm64) + Intel (x86_64) |
-| Download size | 1.8 MB (zip) |
+| Download size | 1.9 MB (zip) |
 | License | MIT (free, open source) |
 | Built with | Swift 5.9 + AppKit (native, no Electron, no third-party dependencies) |
 | Price | Free — no in-app purchases, subscriptions or ads |

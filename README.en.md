@@ -21,7 +21,7 @@
 
 <p align="center"><b>Free forever</b> · No in-app purchases · No subscription · No ads · No account</p>
 
-<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Download 1.8 (universal, 1.8 MB)</b></a></p>
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Download 1.9 (universal, ~1.9 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <b>English</b> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -81,14 +81,14 @@ In one sentence: it parks paths, never contents — and the only time it goes on
 
 ### Option 1: Download (recommended)
 
-Get `HippoShelf-1.8-universal.zip` from [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1.8 MB, universal for Intel and Apple silicon), unzip it, and drag `HippoShelf.app` into Applications.
+Get `HippoShelf-1.9-universal.zip` from [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1.9 MB, universal for Intel and Apple silicon), unzip it, and drag `HippoShelf.app` into Applications.
 
 - **First launch:** right-click the app → Open → Open again (locally signed, not notarized).
 - If macOS says the app is damaged:
   ```bash
   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
   ```
-- Optional checksum: compare `shasum -a 256 HippoShelf-1.8-universal.zip` with the `.sha256` file on the release page.
+- Optional checksum: compare `shasum -a 256 HippoShelf-1.9-universal.zip` with the `.sha256` file on the release page.
 
 > Every release is built from source by GitHub Actions ([release.yml](.github/workflows/release.yml)) and ships with a `.sha256` checksum.
 

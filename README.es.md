@@ -21,7 +21,7 @@
 
 <p align="center"><b>Gratis para siempre</b> · Sin compras dentro de la app · Sin suscripción · Sin anuncios · Sin cuenta</p>
 
-<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Descargar 1.8 (universal, 1,8 MB)</b></a></p>
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ Descargar 1.9 (universal, ~1,9 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <b>Español</b> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -81,14 +81,14 @@ En una frase: guarda rutas, nunca contenidos, y solo se conecta cuando tú busca
 
 ### Opción 1: Descargar (recomendado)
 
-Descarga `HippoShelf-1.8-universal.zip` desde [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1,8 MB, universal para Intel y Apple silicon), descomprímelo y arrastra `HippoShelf.app` a Aplicaciones.
+Descarga `HippoShelf-1.9-universal.zip` desde [Releases](https://github.com/wunankun/HippoShelf/releases/latest) (~1,9 MB, universal para Intel y Apple silicon), descomprímelo y arrastra `HippoShelf.app` a Aplicaciones.
 
 - **Primera apertura:** clic derecho en la app → Abrir → Abrir otra vez (firmada localmente, sin notarizar).
 - Si macOS dice que la app está dañada:
   ```bash
   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
   ```
-- Comprobación opcional: compara `shasum -a 256 HippoShelf-1.8-universal.zip` con el archivo `.sha256` de la página de la release.
+- Comprobación opcional: compara `shasum -a 256 HippoShelf-1.9-universal.zip` con el archivo `.sha256` de la página de la release.
 
 > Cada release se compila desde el código con GitHub Actions ([release.yml](.github/workflows/release.yml)) e incluye un `.sha256`.
 

@@ -21,7 +21,7 @@
 
 <p align="center"><b>完全免费</b> · 无内购 · 无订阅 · 无广告 · 无需账号</p>
 
-<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 下载 1.8 通用版（1.8 MB）</b></a></p>
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 下载 1.9 通用版（约 1.9 MB）</b></a></p>
 
 <p align="center">
   <b>简体中文</b> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -81,14 +81,14 @@
 
 ### 方式一：直接下载（推荐）
 
-到 [Releases](https://github.com/wunankun/HippoShelf/releases/latest) 下载 `HippoShelf-1.8-universal.zip`（约 1.8 MB，Intel / Apple 芯片通用），解压后把 `HippoShelf.app` 拖进「应用程序」。
+到 [Releases](https://github.com/wunankun/HippoShelf/releases/latest) 下载 `HippoShelf-1.9-universal.zip`（约 1.9 MB，Intel / Apple 芯片通用），解压后把 `HippoShelf.app` 拖进「应用程序」。
 
 - **第一次打开：** 右键 App →「打开」→ 再点「打开」（本地签名，未公证）
 - 提示「已损坏，无法打开」时：
   ```bash
   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
   ```
-- 校验下载（可选）：`shasum -a 256 HippoShelf-1.8-universal.zip`，与 Release 页面的 `.sha256` 对比
+- 校验下载（可选）：`shasum -a 256 HippoShelf-1.9-universal.zip`，与 Release 页面的 `.sha256` 对比
 
 > 每次发版都由 GitHub Actions 从源码构建（[release.yml](.github/workflows/release.yml)），Release 里附 `.sha256` 校验文件。
 

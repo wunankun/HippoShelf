@@ -21,7 +21,7 @@
 
 <p align="center"><b>영구 무료</b> · 인앱 결제 없음 · 구독 없음 · 광고 없음 · 계정 필요 없음</p>
 
-<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 1.8 다운로드 (유니버설, 1.8 MB)</b></a></p>
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 1.9 다운로드 (유니버설, 약 1.9 MB)</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <a href="README.ja.md">日本語</a> · <b>한국어</b> · <a href="LICENSE">MIT</a>
@@ -81,14 +81,14 @@ macOS용 "잠깐 여기 둘게" 선반입니다. 파일을 드래그하기 시�
 
 ### 방법 1: 다운로드 (권장)
 
-[Releases](https://github.com/wunankun/HippoShelf/releases/latest)에서 `HippoShelf-1.8-universal.zip`(약 1.8 MB, Intel / Apple 실리콘 공용)을 내려받아 압축을 풀고 `HippoShelf.app`을 응용 프로그램 폴더로 드래그하세요.
+[Releases](https://github.com/wunankun/HippoShelf/releases/latest)에서 `HippoShelf-1.9-universal.zip`(약 1.9 MB, Intel / Apple 실리콘 공용)을 내려받아 압축을 풀고 `HippoShelf.app`을 응용 프로그램 폴더로 드래그하세요.
 
 - **첫 실행:** 앱을 우클릭 → 열기 → 다시 열기 (로컬 서명만, 공증 없음).
 - "손상되었기 때문에 열 수 없습니다"가 뜨면:
   ```bash
   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
   ```
-- 체크섬(선택): `shasum -a 256 HippoShelf-1.8-universal.zip` 결과를 Release 페이지의 `.sha256` 파일과 비교.
+- 체크섬(선택): `shasum -a 256 HippoShelf-1.9-universal.zip` 결과를 Release 페이지의 `.sha256` 파일과 비교.
 
 > 모든 릴리스는 GitHub Actions가 소스에서 빌드하며([release.yml](.github/workflows/release.yml)), `.sha256` 파일을 함께 제공합니다.
 

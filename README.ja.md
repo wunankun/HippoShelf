@@ -21,7 +21,7 @@
 
 <p align="center"><b>ずっと無料</b> · アプリ内課金なし · サブスクなし · 広告なし · アカウント不要</p>
 
-<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 1.8 をダウンロード（ユニバーサル, 1.8 MB）</b></a></p>
+<p align="center"><a href="https://github.com/wunankun/HippoShelf/releases/latest"><b>⬇ 1.9 をダウンロード（ユニバーサル, 約 1.9 MB）</b></a></p>
 
 <p align="center">
   <a href="README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.es.md">Español</a> · <b>日本語</b> · <a href="README.ko.md">한국어</a> · <a href="LICENSE">MIT</a>
@@ -81,14 +81,14 @@ macOS 用の「ちょっとここに置いとく」置き場です。ファイ�
 
 ### 方法 1: ダウンロード（おすすめ）
 
-[Releases](https://github.com/wunankun/HippoShelf/releases/latest) から `HippoShelf-1.8-universal.zip`（約 1.8 MB、Intel / Apple シリコン共通）をダウンロードして解凍し、`HippoShelf.app` を「アプリケーション」へドラッグします。
+[Releases](https://github.com/wunankun/HippoShelf/releases/latest) から `HippoShelf-1.9-universal.zip`（約 1.9 MB、Intel / Apple シリコン共通）をダウンロードして解凍し、`HippoShelf.app` を「アプリケーション」へドラッグします。
 
 - **初回起動:** アプリを右クリック →「開く」→ もう一度「開く」（ローカル署名のみ、公証なし）。
 - 「壊れているため開けません」と出たら:
   ```bash
   xattr -dr com.apple.quarantine /Applications/HippoShelf.app
   ```
-- チェックサム（任意）: `shasum -a 256 HippoShelf-1.8-universal.zip` の結果を Release ページの `.sha256` と照合。
+- チェックサム（任意）: `shasum -a 256 HippoShelf-1.9-universal.zip` の結果を Release ページの `.sha256` と照合。
 
 > 各リリースは GitHub Actions がソースからビルドし（[release.yml](.github/workflows/release.yml)）、`.sha256` を添付します。
 
