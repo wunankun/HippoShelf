@@ -1,0 +1,11 @@
+.DS_Store
+build/
+dist/
+release/
+HippoShelf.app/
+*.zip
+Resources/AppIcon.iconset/
+Resources/preview-icon-*.png
+Preview/
+Concepts/
+Tools/

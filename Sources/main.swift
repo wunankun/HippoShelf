@@ -1,0 +1,346 @@
+import AppKit
+import Quartz
+
+final class PreviewSource: NSObject, QLPreviewPanelDataSource {
+    var url: URL?
+
+    func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+        url == nil ? 0 : 1
+    }
+
+    func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
+        url as NSURL?
+    }
+}
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let store = ShelfStore()
+    private var panel: HippoPanel!
+    private var statusItem: NSStatusItem?
+    private var toggleItem: NSMenuItem?
+    private var cartoonSkinItem: NSMenuItem?
+    private var glassSkinItem: NSMenuItem?
+    private var watcher: Timer?
+    private var lastDragChange = NSPasteboard(name: .drag).changeCount
+    private var dragActive = false
+    private var hideWork: DispatchWorkItem?
+    private var shrinkWork: DispatchWorkItem?
+    private var lastCount = 0
+    private let previewSource = PreviewSource()
+    private var selectedURL: URL?
+    private var keyMonitor: Any?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
+
+        panel = HippoPanel(store: store)
+        panel.content.onOpen = { [weak self] url in self?.openFile(url) }
+        panel.content.onRemove = { [weak self] url in self?.store.remove(url) }
+        panel.content.onClear = { [weak self] in self?.store.clear() }
+        panel.content.onSelectionChange = { [weak self] urls in self?.selectedURL = urls.last }
+        panel.content.onDragInsideChange = { [weak self] inside in
+            guard let self, !inside else { return }
+            self.panel.flushPendingEnlargement()
+        }
+        panel.onUserDragBegan = { [weak self] in self?.cancelHide() }
+        // Deliberately no hide on drag end: moving the shelf is a placement
+        // decision, so an empty card must not vanish right after you set it down.
+
+        store.onChange = { [weak self] in
+            guard let self else { return }
+            self.panel.content.refresh()
+            let count = self.store.items.count
+            if count < self.lastCount {
+                // A shorter mouth waits 0.2s before closing.
+                self.shrinkWork?.cancel()
+                let work = DispatchWorkItem { [weak self] in
+                    self?.panel.fitContent(anchorTop: true, animated: true)
+                }
+                self.shrinkWork = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: work)
+            } else {
+                self.shrinkWork?.cancel()
+                self.panel.fitContent(anchorTop: true, animated: true)
+            }
+            self.lastCount = count
+
+            if self.store.isEmpty {
+                self.scheduleHide()
+            } else if !self.panel.isShown {
+                self.showShelf()
+            }
+        }
+
+        buildStatusItem()
+        startWatchingDrags()
+        startKeyMonitor()
+    }
+
+    // MARK: Keyboard
+
+    private func startKeyMonitor() {
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self else { return event }
+            switch event.keyCode {
+            case 49: // space
+                self.togglePreview()
+                return nil
+            case 36: // return
+                if let selectedURL = self.selectedURL {
+                    self.openFile(selectedURL)
+                    return nil
+                }
+                return event
+            default:
+                return event
+            }
+        }
+    }
+
+    private func togglePreview() {
+        let preview = QLPreviewPanel.shared()!
+        if preview.isVisible {
+            preview.orderOut(nil)
+            return
+        }
+        guard let selectedURL else { return }
+        previewSource.url = selectedURL
+        preview.dataSource = previewSource
+        preview.currentPreviewItemIndex = 0
+        preview.reloadData()
+        preview.makeKeyAndOrderFront(nil)
+    }
+
+    // MARK: Drag detection
+
+    /// The system drag pasteboard changes as soon as a drag starts, so a light
+    /// poll is enough to reveal the shelf before the pointer reaches the edge.
+    private func startWatchingDrags() {
+        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
+            self?.tick()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        watcher = timer
+    }
+
+    private func tick() {
+        // Our own tile drags change the same pasteboard; ignore them or the
+        // refresh would tear down the view that owns the drag session.
+        if ShelfDragState.isDraggingOut {
+            lastDragChange = NSPasteboard(name: .drag).changeCount
+            if NSEvent.pressedMouseButtons == 0 {
+                // Safety net: a cancelled session should have called endedAt.
+                ShelfDragState.isDraggingOut = false
+            }
+            return
+        }
+
+        let pasteboard = NSPasteboard(name: .drag)
+        let buttonsDown = NSEvent.pressedMouseButtons != 0
+
+        if pasteboard.changeCount != lastDragChange {
+            lastDragChange = pasteboard.changeCount
+            let hasFiles = hippoAcceptsFileURLs(pasteboard)
+            if hasFiles && !dragActive {
+                dragActive = true
+                cancelHide()
+                // Coming from outside: the shelf grows while you aim; it also
+                // opens one extra row plus 0.2 of a row to take the file. The
+                // glass card follows the same rule as the cartoon mouth.
+                panel.content.setAnticipation(store.isEmpty ? 0 : 1)
+                panel.content.setOvershoot(panel.content.tileHeight * 0.2)
+                panel.setEnlargement(1.15, animated: panel.isShown)
+                panel.fitContent(anchorTop: true, animated: true)
+                if !panel.isShown { showShelf() }
+            } else if !hasFiles && dragActive && !buttonsDown {
+                // A drag pasteboard that empties while the button is still down
+                // is just the source updating promised data; do not drop the
+                // destination in the middle of the drag.
+                endDrag()
+            }
+        }
+
+        if dragActive && !buttonsDown {
+            endDrag()
+        }
+    }
+
+    // MARK: Opening files
+
+    private func openFile(_ url: URL) {
+        NSApp.activate(ignoringOtherApps: true)
+
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "文件已不在原位置"
+            alert.informativeText = "“\(url.lastPathComponent)” 可能已经被移动或删除。截图缩略图拖进来的文件有时是临时文件，拖完就会被系统清掉。"
+            alert.addButton(withTitle: "从嘴里拿出来")
+            alert.addButton(withTitle: "好")
+            if alert.runModal() == .alertFirstButtonReturn {
+                store.remove(url)
+            }
+            return
+        }
+
+        // Reading first also asks macOS for folder access while the app is active,
+        // so a first-time permission prompt can actually appear and be answered.
+        do {
+            let handle = try FileHandle(forReadingFrom: url)
+            try? handle.close()
+        } catch {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "没有权限读取这个文件"
+            alert.informativeText = "请在「系统设置 → 隐私与安全性 → 文件与文件夹」里允许「河马置物架」访问这个位置，然后再点一次。\n\n\(url.path)"
+            alert.addButton(withTitle: "打开系统设置")
+            alert.addButton(withTitle: "好")
+            if alert.runModal() == .alertFirstButtonReturn,
+               let settings = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_FilesAndFolders") {
+                NSWorkspace.shared.open(settings)
+            }
+            return
+        }
+
+        if !NSWorkspace.shared.open(url) {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "打不开这个文件"
+            alert.informativeText = "没有找到能打开“\(url.lastPathComponent)”的应用。"
+            alert.addButton(withTitle: "好")
+            alert.runModal()
+        }
+    }
+
+    // MARK: Visibility
+
+    private func screenUnderMouse() -> NSScreen? {
+        let point = NSEvent.mouseLocation
+        return NSScreen.screens.first { NSMouseInRect(point, $0.frame, false) } ?? NSScreen.main
+    }
+
+    private func endDrag() {
+        guard dragActive else { return }
+        dragActive = false
+        panel.content.setAnticipation(0)
+        panel.content.setOvershoot(0)
+        panel.setEnlargement(1.0, animated: true)
+        panel.fitContent(anchorTop: true, animated: true)
+        if store.isEmpty { scheduleHide() }
+    }
+
+    private func showShelf() {
+        guard let screen = screenUnderMouse() else { return }
+        panel.show(on: screen)
+        toggleItem?.title = "隐藏置物架"
+    }
+
+    private func hideShelf() {
+        dragActive = false
+        panel.setEnlargement(1.0, animated: false)
+        panel.hide()
+        toggleItem?.title = "显示置物架"
+    }
+
+    private func scheduleHide() {
+        cancelHide()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            guard self.store.isEmpty, !self.dragActive else { return }
+            self.hideShelf()
+        }
+        hideWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45, execute: work)
+    }
+
+    private func cancelHide() {
+        hideWork?.cancel()
+        hideWork = nil
+    }
+
+    // MARK: Menu bar
+
+    private func buildStatusItem() {
+        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let button = item.button {
+            let image = HippoStatusIcon.make()
+            image.isTemplate = true
+            button.image = image
+            button.toolTip = "河马置物架"
+        }
+
+        let menu = NSMenu()
+        let toggle = NSMenuItem(title: "显示置物架", action: #selector(toggleShelf), keyEquivalent: "s")
+        toggle.target = self
+        menu.addItem(toggle)
+        toggleItem = toggle
+
+        let clear = NSMenuItem(title: "清空置物架", action: #selector(clearShelf), keyEquivalent: "")
+        clear.target = self
+        menu.addItem(clear)
+
+        menu.addItem(.separator())
+
+        let cartoon = NSMenuItem(title: "卡通皮肤", action: #selector(chooseCartoonSkin), keyEquivalent: "")
+        cartoon.target = self
+        cartoon.state = Hippo.skin == .cartoon ? .on : .off
+        menu.addItem(cartoon)
+        cartoonSkinItem = cartoon
+
+        let glass = NSMenuItem(title: "简约皮肤", action: #selector(chooseGlassSkin), keyEquivalent: "")
+        glass.target = self
+        glass.state = Hippo.skin == .glass ? .on : .off
+        menu.addItem(glass)
+        glassSkinItem = glass
+
+        menu.addItem(.separator())
+        let quit = NSMenuItem(title: "退出置物架", action: #selector(quit), keyEquivalent: "q")
+        quit.target = self
+        menu.addItem(quit)
+
+        item.menu = menu
+        statusItem = item
+    }
+
+    @objc private func toggleShelf() {
+        if panel.isShown { hideShelf() } else { showShelf() }
+    }
+
+    @objc private func clearShelf() {
+        store.clear()
+    }
+
+    @objc private func chooseCartoonSkin() {
+        applySkin(.cartoon)
+    }
+
+    @objc private func chooseGlassSkin() {
+        applySkin(.glass)
+    }
+
+    private func applySkin(_ skin: HippoSkin) {
+        Hippo.skin = skin
+        UserDefaults.standard.set(skin.rawValue, forKey: "shelfSkin")
+        cartoonSkinItem?.state = skin == .cartoon ? .on : .off
+        glassSkinItem?.state = skin == .glass ? .on : .off
+        panel.content.refresh()
+        panel.content.applySkin()
+        panel.fitContent(anchorTop: true, animated: true)
+    }
+
+    @objc private func quit() {
+        watcher?.invalidate()
+        if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
+        NSApp.terminate(nil)
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        watcher?.invalidate()
+        if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
+    }
+}
+
+let application = NSApplication.shared
+let delegate = AppDelegate()
+application.delegate = delegate
+application.run()
